@@ -134,6 +134,7 @@ public class TwitterRequest {
     private String getSearchStream(String searchTerm) {
         String results = null;
         try {
+
             String encodedUrl = URLEncoder.encode(searchTerm, "UTF-8");
             encodedUrl += "&result_type=recent";
             encodedUrl += "&count=100";

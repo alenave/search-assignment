@@ -90,4 +90,15 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
         customViewHolder.tweet.setTag(customViewHolder);
         customViewHolder.image.setTag(customViewHolder);
     }
+
+//    public void clearData() {
+//        int size = this.tweetsList.size();
+//        if (size > 0) {
+//            for (int i = 0; i < size; i++) {
+//                this.tweetsList.remove(0);
+//            }
+//
+//            this.notifyItemRangeRemoved(0, size);
+//        }
+//    }
 }

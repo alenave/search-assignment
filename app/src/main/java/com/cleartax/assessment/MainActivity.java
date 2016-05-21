@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.cleartax.assessment.adapters.PagerAdapter;
 
@@ -55,6 +56,25 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+
+        if (doubleBackToExitPressedOnce && viewPager.getCurrentItem() == 0) {
+            super.onBackPressed();
+            return;
+        }
+        if (viewPager.getCurrentItem() == 0) {
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        }
+        
+        if (viewPager.getCurrentItem() != 0) {
+            viewPager.setCurrentItem(0);
+        }
     }
 }
 

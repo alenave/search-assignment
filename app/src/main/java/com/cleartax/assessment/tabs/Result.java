@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.cleartax.assessment.R;
 import com.cleartax.assessment.model.Frequency;
-import com.cleartax.assessment.tabs.search.tweets.SearchTweets;
 
 import java.util.Arrays;
 
@@ -26,6 +25,7 @@ public class Result extends Fragment implements View.OnClickListener {
     private TextView result;
     public SharedPreferences mUserSharedPreferences;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
+    public static String  searchTerm = "ClearTax";
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,18 +56,8 @@ public class Result extends Fragment implements View.OnClickListener {
     }
 
     private void calculateFrequency() {
-        if(SearchTweets.isTweetFetched) {
-            showResult();
-        } else {
-            new SearchTweets().fetchNews();
-            showResult();
-        }
-    }
-
-    private void showResult() {
         Frequency[] frequencies = new Frequency[3];
         SharedPreferences prefs = getContext().getSharedPreferences(MY_PREFS_NAME, getContext().MODE_PRIVATE);
-        String restoredText = prefs.getString("text", null);
         StringBuilder resultText = new StringBuilder();
         for(int i = 0; i < 3; i++) {
             frequencies[i] = new Frequency();
@@ -81,4 +71,8 @@ public class Result extends Fragment implements View.OnClickListener {
         }
         result.setText(resultText);
     }
+
+//    private void showResult() {
+//
+//    }
 }
