@@ -22,8 +22,8 @@ import java.util.List;
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.CustomViewHolder> {
 
     Context context;
-    List<Tweet> feedItemList = new ArrayList<Tweet>();
-    Tweet tweets;
+    List<Tweet> tweetsList = new ArrayList<Tweet>();
+    Tweet tweet;
     private final int VIEW_TYPE_CELL = 1;
     private final int VIEW_TYPE_FOOTER = 2;
     private String type = null;
@@ -32,9 +32,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
 
     }
 
-    public MyRecyclerAdapter(Context context, List<Tweet> tweets) {
+    public MyRecyclerAdapter(Context context, List<Tweet> tweet) {
         this.context = context;
-        this.feedItemList = tweets;
+        this.tweetsList = tweet;
     }
 
     @Override
@@ -46,18 +46,18 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
 
     @Override
     public void onBindViewHolder(MyRecyclerAdapter.CustomViewHolder holder, int position) {
-        tweets = feedItemList.get(position);
+        tweet = tweetsList.get(position);
         renderDataRow(holder);
     }
 
     @Override
     public int getItemCount() {
-        return (null != feedItemList ? feedItemList.size() : 0);
+        return (null != tweetsList ? tweetsList.size() : 0);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return ((position + 1) == feedItemList.size()) ? VIEW_TYPE_FOOTER : VIEW_TYPE_CELL;
+        return ((position + 1) == tweetsList.size()) ? VIEW_TYPE_FOOTER : VIEW_TYPE_CELL;
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -78,18 +78,16 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
 
 
     void renderDataRow(CustomViewHolder customViewHolder) {
-        Picasso.with(context).load(tweets.getProfileImageUrl())
+        Picasso.with(context).load(tweet.getProfileImageUrl())
                 .error(R.drawable.logo)
                 .placeholder(R.drawable.logo)
                 .into(customViewHolder.image);
 
-        customViewHolder.screenName.setText(tweets.getScreenName());
-        customViewHolder.tweet.setText(tweets.getText());
+        customViewHolder.screenName.setText(tweet.getScreenName());
+        customViewHolder.tweet.setText(tweet.getText());
 
         customViewHolder.screenName.setTag(customViewHolder);
         customViewHolder.tweet.setTag(customViewHolder);
         customViewHolder.image.setTag(customViewHolder);
     }
-
-
 }

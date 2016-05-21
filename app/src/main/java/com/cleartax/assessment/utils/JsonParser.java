@@ -1,7 +1,5 @@
 package com.cleartax.assessment.utils;
 
-import android.util.Log;
-
 import com.cleartax.assessment.model.Tweet;
 import com.cleartax.assessment.twitter.api.TwitterRequest;
 
@@ -35,7 +33,6 @@ public class JsonParser {
                     JSONArray ja = jo.getJSONArray("statuses");
                     for (int i = 0; i < ja.length(); i++) {
                         JSONObject jo2 = (JSONObject) ja.get(i);
-                        Log.d("Clear Object", jo2.toString());
                         currItem = new Tweet();
                         currItem.setDateCreated(jo2.getString("created_at"));
                         currItem.setId(jo2.getString("id"));

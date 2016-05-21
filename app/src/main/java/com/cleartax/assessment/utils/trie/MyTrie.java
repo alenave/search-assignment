@@ -1,11 +1,16 @@
 package com.cleartax.assessment.utils.trie;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 /**
  * Created by alenave on 20/05/16.
  */
 public class MyTrie {
     MyTrieNode root;
     MinHeap minHeap;
+    public SharedPreferences mUserSharedPreferences;
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
 
     public MyTrie(int frequency) {
         root = new MyTrieNode(' ');
@@ -124,10 +129,13 @@ public class MyTrie {
     /*
      * Traverse through Min Heap and show all words and their frequency
      * */
-    public void display() {
+    public void display(Context context) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(MY_PREFS_NAME, context.MODE_APPEND).edit();
         for (int i = 0; i < this.minHeap.size; i++) {
-            System.out.println("word\t:\t" + this.minHeap.nodes[i].word
-                    + "\t\t\t\tfrequency\t:\t" + this.minHeap.nodes[i].frequency);
+            editor.putString(i + "_word", this.minHeap.nodes[i].word);
+            editor.putInt(i + "_frequency", this.minHeap.nodes[i].frequency);
+
         }
+        editor.commit();
     }
 }

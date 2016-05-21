@@ -1,6 +1,7 @@
 package com.cleartax.assessment.tabs.search.tweets;
 
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import com.cleartax.assessment.R;
 import com.cleartax.assessment.adapters.MyRecyclerAdapter;
 import com.cleartax.assessment.model.Tweet;
 import com.cleartax.assessment.utils.JsonParser;
+import com.cleartax.assessment.utils.trie.MyTrie;
 
 import org.json.JSONObject;
 
@@ -31,6 +33,9 @@ public class SearchTweets extends Fragment {
     private MyRecyclerAdapter adapter;
     private String searchTerm = "ClearTax";
     public List<Tweet> tweetsList = new ArrayList<Tweet>();
+    public static boolean isTweetFetched = false;
+    public SharedPreferences mUserSharedPreferences;
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
 
 
 
@@ -57,9 +62,11 @@ public class SearchTweets extends Fragment {
         fetchNews();
     }
 
-    private void fetchNews() {
 
 
+    public void fetchNews() {
+
+        isTweetFetched = true;
         new AsyncTask<Void, Void, JSONObject>() {
             @Override
             protected void onPreExecute() {
@@ -83,13 +90,23 @@ public class SearchTweets extends Fragment {
                 super.onPostExecute(feedObject);
                 try {
                     JsonParser jsonParser = new JsonParser();
-                        tweetsList.addAll(jsonParser.tweetFeedList(feedObject));
-                        adapter.notifyDataSetChanged();
+                    tweetsList.addAll(jsonParser.tweetFeedList(feedObject));
+                    setFrequncyResult(tweetsList);
+                    adapter.notifyDataSetChanged();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }.execute(null, null, null);
-
+    }
+    private void setFrequncyResult(List<Tweet> tweetsList) {
+        MyTrie t = new MyTrie(3);
+        for (Tweet tweet : tweetsList) {
+            String[] array=tweet.getText().split(" ");
+            for (int i = 0; i < array.length; i++) {
+                t.insert(array[i]);
+            }
+        }
+        t.display(getContext());
     }
 }

@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.cleartax.assessment.tabs.ClearTax;
+import com.cleartax.assessment.tabs.Result;
 import com.cleartax.assessment.tabs.search.tweets.SearchTweets;
 
 /**
@@ -32,6 +33,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 SearchTweets searchTweets = new SearchTweets();
                 return searchTweets;
+            case 2:
+                Result result = new Result();
+                return result;
             default:
                 return null;
         }

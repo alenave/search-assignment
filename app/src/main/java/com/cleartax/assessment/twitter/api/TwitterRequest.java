@@ -43,39 +43,7 @@ public class TwitterRequest {
             e.printStackTrace();
         }
         return (JSONObject) json;
-
-//        Searches searches = jsonToSearches(result);
-
-//        MyTrie t = new MyTrie(3);
-//        for (Search search : searches) {
-//            String[] array=search.getText().split(" ");
-//            for (int i = 0; i < array.length; i++) {
-//                t.insert(array[i]);
-//            }
-//        }
-//        t.display();
-
-        // send the tweets to the adapter for rendering
-//        ArrayAdapter<Search> adapter = new ArrayAdapter<Search>(activity, android.R.layout.simple_list_item_1, searches);
-//        setListAdapter(adapter);
     }
-
-    // converts a string of JSON data into a SearchResults object
-//    private Searches jsonToSearches(String result) {
-//        Searches searches = null;
-//        if (result != null && result.length() > 0) {
-//            try {
-//                Gson gson = new Gson();
-//                // bring back the entire search object
-//                SearchResults sr = gson.fromJson(result, SearchResults.class);
-//                // but only pass the list of tweets found (called statuses)
-//                searches = sr.getStatuses();
-//            } catch (IllegalStateException ex) {
-//                // just eat the exception for now, but you'll need to add some handling here
-//            }
-//        }
-//        return searches;
-//    }
 
     // convert a JSON authentication object into an Authenticated object
     private Authenticated jsonToAuthenticated(String rawAuthorization) {
@@ -165,9 +133,6 @@ public class TwitterRequest {
 
     private String getSearchStream(String searchTerm) {
         String results = null;
-//            searchTerm = searchTerm + "&since_id=0"
-//            searchTerm  = searchTerm + "max_id=99999";
-//            searchTerm += "&since_id=10";
         try {
             String encodedUrl = URLEncoder.encode(searchTerm, "UTF-8");
             encodedUrl += "&result_type=recent";
