@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.cleartax.assessment.R;
 
@@ -29,6 +30,13 @@ public class ClearTax extends Fragment {
         view = inflater.inflate(R.layout.fragment_cleartax, container, false);
         webView = (WebView) view.findViewById(R.id.webview);
         webView.loadUrl("https://cleartax.in/");
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return false;
+            }
+        });
         return view;
     }
 }
