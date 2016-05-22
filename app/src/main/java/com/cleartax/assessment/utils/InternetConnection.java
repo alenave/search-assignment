@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
 import android.widget.Toast;
 
 /**
- * Created by alenave on 25/11/15.
+ * Created by alenave on 21/05/16.
  */
 public class InternetConnection {
 

@@ -20,4 +20,13 @@
         android:textSize="20sp"
         android:text="Word : Frequency"/>
 
+    <Button
+        android:id="@+id/retry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:visibility="gone"
+        android:text="retry"/>
+
 </LinearLayout>

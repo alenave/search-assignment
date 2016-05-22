@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             this.doubleBackToExitPressedOnce = true;
             Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
         }
-        
+
         if (viewPager.getCurrentItem() != 0) {
             viewPager.setCurrentItem(0);
         }

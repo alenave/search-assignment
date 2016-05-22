@@ -1,6 +1,7 @@
 package com.cleartax.assessment.tabs;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,8 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.cleartax.assessment.MainActivity;
 import com.cleartax.assessment.R;
 import com.cleartax.assessment.model.Frequency;
+import com.cleartax.assessment.utils.InternetConnection;
 
 import java.util.Arrays;
 
@@ -23,6 +26,7 @@ public class Result extends Fragment implements View.OnClickListener {
     private View view;
     private Button checkFrequency;
     private TextView result;
+    private Button retryButton;
     public SharedPreferences mUserSharedPreferences;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     public static String  searchTerm = "ClearTax";
@@ -39,10 +43,22 @@ public class Result extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(!InternetConnection.isInternetConnected(getContext())) {
+            checkFrequency.setVisibility(View.GONE);
+            result.setVisibility(View.GONE);
+            retryButton.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void initViews(){
         checkFrequency = (Button) view.findViewById(R.id.check_frequency);
         result = (TextView) view.findViewById(R.id.result);
+        retryButton = (Button) view.findViewById(R.id.retry);
         checkFrequency.setOnClickListener(this);
+        retryButton.setOnClickListener(this);
     }
 
 
@@ -52,6 +68,16 @@ public class Result extends Fragment implements View.OnClickListener {
             case R.id.check_frequency:
                 calculateFrequency();
                 break;
+            case R.id.retry:
+                onClickRetry();
+                break;
+        }
+    }
+
+    private void onClickRetry() {
+        if(InternetConnection.isInternetConnected(getContext())) {
+            startActivity(new Intent(getContext(), MainActivity.class));
+            getActivity().finish();
         }
     }
 

@@ -1,6 +1,7 @@
 package com.cleartax.assessment.tabs.search.tweets;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,10 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.cleartax.assessment.MainActivity;
 import com.cleartax.assessment.R;
 import com.cleartax.assessment.adapters.MyRecyclerAdapter;
 import com.cleartax.assessment.model.Tweet;
+import com.cleartax.assessment.utils.InternetConnection;
 import com.cleartax.assessment.utils.JsonParser;
 import com.cleartax.assessment.utils.ProgressDlg;
 import com.cleartax.assessment.utils.trie.MyTrie;
@@ -36,6 +41,8 @@ public class SearchTweets extends Fragment implements View.OnClickListener {
     private MyRecyclerAdapter adapter;
     private EditText searchTerm;
     private Button searcButton;
+    private LinearLayout searchLayout;
+    private Button retryButton;
     private String searchTermString = "ClearTax";
     public List<Tweet> tweetsList = new ArrayList<Tweet>();
     public static boolean isTweetFetched = false;
@@ -57,6 +64,7 @@ public class SearchTweets extends Fragment implements View.OnClickListener {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
+        fetchNews(searchTermString);
         return view;
     }
 
@@ -65,7 +73,12 @@ public class SearchTweets extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         adapter = new MyRecyclerAdapter(getActivity(), tweetsList );
         recyclerView.setAdapter(adapter);
-        fetchNews(searchTermString);
+        if(!InternetConnection.isInternetConnected(getContext())) {
+            recyclerView.setVisibility(View.GONE);
+            searchLayout.setVisibility(View.GONE);
+            retryButton.setVisibility(View.VISIBLE);
+            retryButton.setOnClickListener(this);
+        }
     }
 
     private void initViews() {
@@ -73,6 +86,8 @@ public class SearchTweets extends Fragment implements View.OnClickListener {
         searchTerm.clearFocus();
         searcButton = (Button) view.findViewById(R.id.search_button);
         searcButton.setOnClickListener(this);
+        searchLayout = (LinearLayout) view.findViewById(R.id.search_layout);
+        retryButton = (Button) view.findViewById(R.id.retry);
     }
 
 
@@ -84,7 +99,7 @@ public class SearchTweets extends Fragment implements View.OnClickListener {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                ProgressDlg.showProgressDialog(getContext(), "fetching results for " + searchTermString);
+                ProgressDlg.showProgressDialog(getContext(), "please wait...");
             }
 
             @Override
@@ -136,11 +151,27 @@ public class SearchTweets extends Fragment implements View.OnClickListener {
             case R.id.search_button:
                 userSearchTerm();
                 break;
+            case R.id.retry:
+                onClickRetry();
+                break;
+        }
+    }
+
+    public void onClickRetry() {
+        if (InternetConnection.isInternetConnected(getContext())) {
+            startActivity(new Intent(getContext(), MainActivity.class));
+            getActivity().finish();
         }
     }
 
     private void userSearchTerm(){
-        searchTermString = searchTerm.getText().toString();
-        fetchNews(searchTermString);
+        String searchTermTemp = searchTerm.getText().toString();
+        searchTermString = searchTermTemp.trim().equals("") ?
+                "" : searchTerm.getText().toString();
+        if(!searchTermTemp.trim().equals("")) {
+            fetchNews(searchTermString);
+        } else {
+            Toast.makeText(getContext(), "please enter the search term!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
