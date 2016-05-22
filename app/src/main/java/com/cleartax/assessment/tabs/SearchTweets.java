@@ -1,4 +1,4 @@
-package com.cleartax.assessment.tabs.search.tweets;
+package com.cleartax.assessment.tabs;
 
 
 import android.content.Intent;

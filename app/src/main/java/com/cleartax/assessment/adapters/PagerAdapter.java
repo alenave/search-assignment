@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.cleartax.assessment.tabs.ClearTax;
 import com.cleartax.assessment.tabs.Result;
-import com.cleartax.assessment.tabs.search.tweets.SearchTweets;
+import com.cleartax.assessment.tabs.SearchTweets;
 
 /**
  * Created by alenave on 03/11/15.
