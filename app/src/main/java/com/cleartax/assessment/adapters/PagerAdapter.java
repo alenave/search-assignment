@@ -9,7 +9,7 @@ import com.cleartax.assessment.tabs.Result;
 import com.cleartax.assessment.tabs.SearchTweets;
 
 /**
- * Created by alenave on 03/11/15.
+ * Created by alenave on 21/05/16.
  */
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
